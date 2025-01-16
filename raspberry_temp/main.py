@@ -13,7 +13,7 @@ class device_temp:
         try:
             output = subprocess.check_output("vcgencmd"/ "measure_temp").decode("utf-8")
             gpu_temp = output.split("=")[1].split("'")[0]
-            return round(float(gpu_temp)2) 
+            return round(float(gpu_temp)) 
         except FileNotFoundError:
             print("Error: vcgencmd not found: ensure it is installed")
             return None
