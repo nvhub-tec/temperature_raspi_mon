@@ -23,12 +23,12 @@ class device_temp:
     
 
 
-def read_temp_file(self):
-    with open("//sys//class//thermal//thermal_zone0//temp", "r") as file:
-        temp_str = file.read()
-        return int(temp_str) / 1000.0
-    cpu_temp = read_temp_file()
-    print(f"cpu temperature, degrees Celcius: ", {cpu_temp})
+    def read_temp_file(self):
+        with open("//sys//class//thermal//thermal_zone0//temp", "r") as file:
+            temp_str = file.read()
+            return int(temp_str) / 1000.0
+        # cpu_temp = read_temp_file()
+        # print(f"cpu temperature, degrees Celcius: ", {cpu_temp})
         
         
         
@@ -45,7 +45,7 @@ def sampling_method(self):
             
             
 def sample_rate(self):
-    sampleRate = input(int())
+    sampleRate = input(int(10))
     next_sample = time.time()
 
 while True:
