@@ -1,19 +1,22 @@
 import time
 
+import subprocess
+
+
 class device_temp:
-    def __init__ (self, samplerate, cpu_temp_path, gpu_temp, store_cpu_temp, store_gpu_temp):
-        self.samplerate = sample_rate
-        self.cpu_temp_path = "//sys//class//thermal//thermal_zone0//temp"
-        self.gpu_temp = "vcgencmd measure_temp" #terminal command
-        self.store_cpu_temp = []
-        self.store_gpu_temp = []
+    def __init__ (self, cpu_temp_path, gpu_temp):
+    
+        self.cpu_temp_path = cpu_temp_path  #"//sys//class//thermal//thermal_zone0//temp"
+        self.gpu_temp = gpu_temp  #"vcgencmd measure_temp" #terminal command
+
     
 
     def read_gpu_temp(self):    #shell command, convert from byte str, format, handle errors
         try:
-            output = subprocess.check_output("vcgencmd"/ "measure_temp").decode("utf-8")
+            output = subprocess.check_output(["//usr//bin//vcgencmd", "measure_temp"]).decode("utf-8")
             gpu_temp = output.split("=")[1].split("'")[0]
-            return round(float(gpu_temp)) 
+            
+            return float(gpu_temp)
         except FileNotFoundError:
             print("Error: vcgencmd not found: ensure it is installed")
             return None
@@ -27,33 +30,39 @@ class device_temp:
         with open("//sys//class//thermal//thermal_zone0//temp", "r") as file:
             temp_str = file.read()
             return int(temp_str) / 1000.0
-        # cpu_temp = read_temp_file()
-        # print(f"cpu temperature, degrees Celcius: ", {cpu_temp})
         
         
-        
-def sampling_method(self):
-    cpuTempSample = read_temp_file
-    gpuTempSample = read_gpu_temp
-    
-    if cpuTempSample is not None:
-        print(f"CPU temperature: {cpuTempSample:.2f}°C")
-        
-    if gpuTempSample is not None:
-        print(f"GPU temperature: {gpuTempSample:.2f}°C")
-            
-            
-            
-def sample_rate(self):
-    sampleRate = input(int(10))
-    next_sample = time.time()
 
-while True:
-    sample_rate()
-    read_temp_file()
-    #read_gpu_file
+camera1 = device_temp("//sys//class//thermal//thermal_zone0//temp", "vcgencmd measure_temp")  #creating the object
+
+        #initialise loop count, variable to sum all temperatures
+samplespm = int(input("input samples per minute: "))
+def averaging_values():
+    try:
+        
     
-next_sample += sampleRate
-remaining_time = next_sample - time.time()
-if remaining_time > 0:
-    time.sleep(remaining_time)
+        delay = 60 / samplespm
+        count = 0
+        sum_temperature = 0
+        sum_temperature2 = 0
+        while count <= samplespm:
+    
+            sum_temperature += camera1.read_temp_file()  #use cpu temp method, add to variable
+            sum_temperature2 += camera1.read_gpu_temp()
+            count+=1
+            time.sleep(1)
+      
+        average_temp = sum_temperature/ samplespm
+        print(f"average cpu temp = {average_temp:.2f}°C")
+        average_temp2 = sum_temperature2/ samplespm
+        print(f"average gpu temp = {average_temp2:.2f}°C")
+    except ValueError:
+        ("Invalid input, enter a positive integer.")
+       
+        
+a = 1
+while True:
+    averaging_values()
+        
+        
+        
