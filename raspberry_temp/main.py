@@ -50,7 +50,7 @@ def averaging_values():
             sum_temperature += camera1.read_temp_file()  #use cpu temp method, add to variable
             sum_temperature2 += camera1.read_gpu_temp()
             count+=1
-            time.sleep(1)
+            time.sleep(delay)
       
         average_temp = sum_temperature/ samplespm
         print(f"average cpu temp = {average_temp:.2f}°C")
