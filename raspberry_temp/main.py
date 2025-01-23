@@ -1,17 +1,14 @@
 import time
-
 import subprocess
 
-
-class device_temp:
-    def __init__ (self, cpu_temp_path, gpu_temp):
+class device_temperature:
+    def __init__ (self, cpu_temperature, gpu_temperature):
     
-        self.cpu_temp_path = cpu_temp_path  #"//sys//class//thermal//thermal_zone0//temp"
-        self.gpu_temp = gpu_temp  #"vcgencmd measure_temp" #terminal command
+        self.cpu_temperature = cpu_temperature  #"//sys//class//thermal//thermal_zone0//temp"
+        self.gpu_temperature = gpu_temperature  #"vcgencmd measure_temp" #terminal command
 
     
-
-    def read_gpu_temp(self):    #shell command, convert from byte str, format, handle errors
+    def read_gpu_temperature(self):    #shell command, convert from byte str, format, handle errors
         try:
             output = subprocess.check_output(["//usr//bin//vcgencmd", "measure_temp"]).decode("utf-8")
             gpu_temp = output.split("=")[1].split("'")[0]
@@ -26,18 +23,19 @@ class device_temp:
     
 
 
-    def read_temp_file(self):
+    def read_cpu_temperature(self):
         with open("//sys//class//thermal//thermal_zone0//temp", "r") as file:
-            temp_str = file.read()
-            return int(temp_str) / 1000.0
+            cpu_temp = file.read()
+            return int(cpu_temp) / 1000.0
         
         
 
-camera1 = device_temp("//sys//class//thermal//thermal_zone0//temp", "vcgencmd measure_temp")  #creating the object
+camera1 = device_temperature("//sys//class//thermal//thermal_zone0//temp", "vcgencmd measure_temp")  #creating the object
 
         #initialise loop count, variable to sum all temperatures
 samplespm = int(input("input samples per minute: "))
-def averaging_values():
+
+def main():
     try:
         
     
@@ -62,7 +60,7 @@ def averaging_values():
         
 a = 1
 while True:
-    averaging_values()
+    main()
         
         
         
