@@ -45,8 +45,8 @@ def main():
         sum_temperature2 = 0
         while count <= samplespm:
     
-            sum_temperature += camera1.read_temp_file()  #use cpu temp method, add to variable
-            sum_temperature2 += camera1.read_gpu_temp()
+            sum_temperature += camera1.read_cpu_temperature()  #use cpu temp method, add to variable
+            sum_temperature2 += camera1.read_gpu_temperature()
             count+=1
             time.sleep(delay)
       
