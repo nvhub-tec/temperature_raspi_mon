@@ -1,6 +1,15 @@
 import time
 import subprocess
+import platform
+import sys
+import os
 
+def check_system_requirements():
+    # Check if running on Linux
+    if platform.system() != "Linux":
+        print("Error: This script is designed to run on Linux")
+        sys.exit(1)
+        
 class device_temperature:
     def __init__ (self, cpu_temperature, gpu_temperature):
     
