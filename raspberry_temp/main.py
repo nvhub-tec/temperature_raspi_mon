@@ -8,7 +8,7 @@ class device_temperature:
         self.gpu_temperature = gpu_temperature  #"vcgencmd measure_temp" #terminal command
 
     
-    def read_gpu_temperature(self):    #shell command, convert from byte str, format, handle errors
+    def read_gpu_temperature(self): #shell command, convert from byte str, format, handle errors
         try:
             output = subprocess.check_output(["//usr//bin//vcgencmd", "measure_temp"]).decode("utf-8")
             gpu_temp = output.split("=")[1].split("'")[0]
