@@ -2,7 +2,7 @@ import time
 import subprocess
 import platform
 import sys
-import os
+
 
 def check_system_requirements():
     # Check if running on Linux
@@ -70,6 +70,3 @@ def main():
 a = 1
 while True:
     main()
-        
-        
-        
