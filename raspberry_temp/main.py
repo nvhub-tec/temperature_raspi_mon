@@ -1,47 +1,14 @@
 import time
-import subprocess
-import platform
-import sys
+from sys_requirements import check_system_requirements
+from temperature_class import device_temperature
 
+check_system_requirements()
 
-def check_system_requirements():
-    """Check if running on Linux"""
-    if platform.system() != "Linux":
-        print("Error: This script is designed to run on Linux")
-        sys.exit(1)
-        
-class device_temperature:
-    """measures cpu and gpu temperatures"""
-    def __init__ (self, cpu_temperature, gpu_temperature):
-    
-        self.cpu_temperature = cpu_temperature  #"//sys//class//thermal//thermal_zone0//temp"
-        self.gpu_temperature = gpu_temperature  #"vcgencmd measure_temp" #terminal command
-        
-        
-    def read_gpu_temperature(self): 
-        """measure gpu temperature using
-    shell command, convert from byte str, format, handle errors"""
-        try:
-            output = subprocess.check_output(["//usr//bin//vcgencmd", "measure_temp"]).decode("utf-8")
-            gpu_temp = output.split("=")[1].split("'")[0]
-            
-            return float(gpu_temp)
-        except FileNotFoundError:
-            print("Error: vcgencmd not found: ensure it is installed")
-            return None
-        except Exception as e:
-            print(f"Error reading gpu temperature {e}")
-            return None
-    
-
-
-    def read_cpu_temperature(self):
-        """measure cpu temperature """
-        with open("//sys//class//thermal//thermal_zone0//temp", "r") as file:
-            cpu_temp = file.read()
-            return int(cpu_temp) / 1000.0
-        
-        
+try:
+    samplespm = int(input("Input samples per minute: "))
+except ValueError:
+    print("Invalid input. Please enter a positive integer.")
+    SystemExit(1)     
 
 camera1 = device_temperature("//sys//class//thermal//thermal_zone0//temp", "vcgencmd measure_temp") 
  
