@@ -14,11 +14,16 @@ class device_temperature:
             
             return float(gpu_temp)
         except FileNotFoundError:
-            print("Error: vcgencmd not found: ensure it is installed")
-            return None
+            raise Exception("Failed to read GPU temperature: 'vcgencmd' command not found. Ensure it is installed.")
+        except ValueError:
+            
+            raise Exception("Failed to read GPU temperature: Output from 'vcgencmd' is not a valid number.")
+        except subprocess.CalledProcessError as e:
+        
+            raise Exception(f"Failed to read GPU temperature: 'vcgencmd' command failed with error: {e}")
         except Exception as e:
-            print(f"Error reading gpu temperature {e}")
-            return None
+        
+            raise Exception(f"Failed to read GPU temperature: {e}")
     
 
     def read_cpu_temperature(self):
