@@ -1,4 +1,5 @@
 import time
+
 from sys_requirements import check_system_requirements
 from temperature_class import device_temperature
 
@@ -10,21 +11,20 @@ except ValueError:
     print("Invalid input. Please enter a positive integer.")
     SystemExit(1)     
 
-camera1 = device_temperature("//sys//class//thermal//thermal_zone0//temp", "vcgencmd measure_temp") 
+camera1 = device_temperature("//sys//class//thermal//thermal_zone0//temp",
+                             "vcgencmd measure_temp") 
  
 """creating the object, give it the class attributes"""
-
 
 
 def main():
     """main function, timing when to sample temperature,
     averaging, printing and error handling"""
     
-    a = 1
-    while True:
-        try:
+    try:
         
-            delay = 60 / samplespm
+        delay = 60 / samplespm
+        while True:
             count = 0
             sum_temperature = 0
             sum_temperature2 = 0
@@ -39,11 +39,10 @@ def main():
             print(f"average cpu temp = {average_temp:.2f}°C")
             average_temp2 = sum_temperature2/ samplespm
             print(f"average gpu temp = {average_temp2:.2f}°C")
-        except ValueError:
-            ("Invalid input, enter a positive integer.")
+    except ValueError:
+        ("Invalid input, enter a positive integer.")
        
-        
-
 
 if __name__ == '__main__':
     main()
+      
