@@ -1,0 +1,38 @@
+import smbus2
+import time
+
+# Define the I2C bus
+bus = smbus2.SMBus(1)  # 1 indicates /dev/i2c-1
+
+# Define the I2C address of the device
+DEVICE_ADDRESS = 0x76  # Replace with your device's address
+
+# Define the register addresses
+REGISTER_TEMP = 0x00  # Example register for temperature
+REGISTER_CONFIG = 0x01  # Example register for configuration
+
+# Write to a register
+def write_register(register, value):
+    bus.write_byte_data(DEVICE_ADDRESS, register, value)
+    print(f"Written {value} to register {register}")
+
+# Read from a register
+def read_register(register):
+    value = bus.read_byte_data(DEVICE_ADDRESS, register)
+    print(f"Read {value} from register {register}")
+    return value
+
+# Example usage
+try:
+    # Write a configuration value to the config register
+    write_register(REGISTER_CONFIG, 0x60)
+
+    # Read a value from the temperature register
+    temperature = read_register(REGISTER_TEMP)
+    print(f"Temperature: {temperature}")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+finally:
+    bus.close()
