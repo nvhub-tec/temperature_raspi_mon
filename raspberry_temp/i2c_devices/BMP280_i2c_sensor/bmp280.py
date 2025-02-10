@@ -30,15 +30,15 @@ class Bmp280:
         
     def _i2c_read_block(self, register: int, length: int) -> list[int]:
   
-        return self._i2c_bus.read_i2c_block_data(
-            self._i2c_address,
+        return self.i2c_bus.read_i2c_block_data(
+            self.i2c_address,
             register,
             length
         )
         
     def _i2c_write_byte(self, register: int, value: int):
-        return self._i2c_bus.write_byte_data(
-            self._i2c_address,
+        return self.i2c_bus.write_byte_data(
+            self.i2c_address,
             register,
             value
         )
