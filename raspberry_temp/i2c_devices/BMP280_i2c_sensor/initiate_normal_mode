@@ -1,6 +1,0 @@
-import subprocess
-
-def normal_mode_on(): 
-    
-    i2c_normal_mode = ["i2cset", "-y", "1", "0x76", "0xf4", "0x11"]
-    subprocess.check_output(i2c_normal_mode)

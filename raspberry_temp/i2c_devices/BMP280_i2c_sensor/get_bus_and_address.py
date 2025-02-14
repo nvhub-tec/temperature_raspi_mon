@@ -35,3 +35,4 @@ def find_i2c_address(i2c_bus: int = None) -> int: # method to identify address
             continue
     bus.close()
     raise RuntimeError(f"No address found on bus {bus}")
+
