@@ -1,44 +1,33 @@
 import time
-
-from sys_requirements import check_system_requirements
-from temperature_class import device_temperature
+import subprocess
+from smbus2 import SMBus
+from i2c_devices.BMP280_i2c_sensor.bmp280 import Bmp280
+from i2c_devices.BMP280_i2c_sensor.get_bus_and_address import find_i2c_bus, find_i2c_address
 
 
 def main():
-    """
-    main function, timing when to sample temperature based on input,
-    averaging, printing and error handling
-    """
-    try:
-        samplespm = int(input("Input samples per minute: "))
-    except ValueError:
-        print("Invalid input. Please enter a positive integer.")
-    SystemExit(1)
+
+    # bus_number = 1               # find_i2c_bus()  #  Find the I2C bus
+    # address = 0x76               # find_i2c_address(bus_number)  #  Find the I2C address
+    # i2c_bus = SMBus(bus_number)  # open bus
+
+    # bmp = Bmp280(
+    #     i2c_bus,
+    #     address
+    # )
+
+    # average_temp_per_minute()
     
-    check_system_requirements()
-    camera1 = device_temperature()
-    
-    try: 
-        delay = 60 / samplespm
-        while True:
-            count = 0
-            sum_temperature = 0
-            sum_temperature2 = 0
-            while count <= samplespm:
-    
-                sum_temperature += camera1.read_cpu_temperature()  
-                #sum_temperature2 += camera1.read_gpu_temperature()
-                count+=1
-                time.sleep(delay)
-      
-            average_temp = sum_temperature/ samplespm
-            print(f"average cpu temp = {average_temp:.2f}°C")
-            #average_temp2 = sum_temperature2/ samplespm
-            #print(f"average gpu temp = {average_temp2:.2f}°C")
-    except ValueError:
-        ("Invalid input, enter a positive integer.")
-       
+    bus_number = find_i2c_bus()
+    address = find_i2c_address(bus_number)
+    i2c_bus = SMBus(bus_number)
+
+    bmp = Bmp280(i2c_bus, address)
+
+    while True:
+        temp = bmp._read_temperature()
+        print(f"Temperature: {temp:.2f}°C")
+        time.sleep(15)  # Wait before taking another reading
 
 if __name__ == '__main__':
     main()
-      
