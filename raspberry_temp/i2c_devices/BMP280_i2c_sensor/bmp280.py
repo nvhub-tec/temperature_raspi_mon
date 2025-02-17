@@ -17,7 +17,6 @@ def config_value(config: Bmp280Config) -> int:
             config.spi_enable)
     
     
-
 class Bmp280:
     
     """_summary_
@@ -34,11 +33,6 @@ class Bmp280:
         self.dig_T1 = int.from_bytes(self._i2c_read_block(0x88, 2), byteorder="little", signed=False)
         self.dig_T2 = int.from_bytes(self._i2c_read_block(0x8A, 2), byteorder="little", signed=True)
         self.dig_T3 = int.from_bytes(self._i2c_read_block(0x8C, 2), byteorder="little", signed=True)
-        
-        print(f"dig_T2 before correction: {self.dig_T2}")
-
-        # Print after applying the correction
-        print(f"dig_T2 after correction: {self.dig_T2}")
         
         
         #registers to write to 
@@ -105,23 +99,4 @@ class Bmp280:
         # Calculate temperature
         temp = (var1 + var2) / 5120.0
         
-        print(f"Temperature: {temp}°C")
         return temp
-
-
-        # var1 = ((((adc_T>>3) - (self.dig_T1<<1))) * (self.dig_T2)) >> 11
-        # var2 = (((((adc_T>>4) - (self.dig_T1)) * ((adc_T>>4) - (self.dig_T1))) >>12) * (self.dig_T3)) >> 1
-        # t_fine = var1 +var2
-        # T = (t_fine * 5 + 128) >> 8
-        # T = T / 100
-        
-        # raw_dig_T2 = self._i2c_read_block(0x8A, 2)
-        # print(f"Raw dig_T2 bytes: {raw_dig_T2}")
-        # manual_dig_T2 = int.from_bytes(raw_dig_T2, byteorder="little", signed=True)
-        # print(f"Manual dig_T2: {manual_dig_T2}")
-        
-        # print(f"Raw temp register values: {d1}, {d2}, {d3}")
-
-        return(T)
-
-   
