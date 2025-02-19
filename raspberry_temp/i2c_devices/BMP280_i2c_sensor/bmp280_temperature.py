@@ -40,7 +40,7 @@ class Bmp280:
         self._i2c_write_byte(0xf4, (5<<5))
         
         config = Bmp280Config()
-        config.iir_filter = 5
+        config.iir_filter = 4
         
     def _i2c_read_block(self, register: int, length: int) -> list[int]:
   
@@ -80,7 +80,7 @@ class Bmp280:
 
         return d1, d2, d3
         
-    def _read_temperature(self) -> float:
+    def read_temperature(self) -> float:
         
         self.reset_configure_mode()  # Make sure the sensor is in forced mode
 

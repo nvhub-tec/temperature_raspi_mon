@@ -1,7 +1,7 @@
 import time
 from smbus2 import SMBus
 from raspi_temperature_driver.temperature_class import DeviceTemperature
-from i2c_devices.BMP280_i2c_sensor.bmp280 import Bmp280
+from i2c_devices.BMP280_i2c_sensor.bmp280_temperature import Bmp280
 from i2c_devices.BMP280_i2c_sensor.get_bus_and_address import find_i2c_bus, find_i2c_address
 
 
@@ -27,7 +27,7 @@ def average_temp_per_minute(device_temperature: DeviceTemperature = None):
         sum_temperature2 = 0
         
         for _ in range(samplespm):
-            sum_temperature1 += bmp._read_temperature()
+            sum_temperature1 += bmp.read_temperature()
             sum_temperature2 += device_temperature.read_cpu_temperature()
             time.sleep(delay)
         
