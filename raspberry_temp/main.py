@@ -1,5 +1,5 @@
 from smbus2 import SMBus
-from i2c_devices.BMP280_i2c_sensor.bmp280 import Bmp280
+from i2c_devices.BMP280_i2c_sensor.bmp280_temperature import Bmp280
 from raspi_temperature_driver.averaging_raspi_temperature import average_temp_per_minute
 
 def main():
