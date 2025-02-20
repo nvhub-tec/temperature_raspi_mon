@@ -71,6 +71,7 @@ class Bmp280:
         self._i2c_write_block(0xF5, [config_value_int])
         
         self._i2c_write_byte(0xF4, 0x27)
+        self._i2c_write_byte(0xF2, 0x01)
         
     def read_raw_temperature(self) -> tuple:
         
