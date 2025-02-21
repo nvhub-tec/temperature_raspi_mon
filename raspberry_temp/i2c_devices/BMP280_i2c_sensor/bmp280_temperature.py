@@ -15,8 +15,8 @@ def config_value(config: Bmp280Config) -> int:
     return (config.inactivity_duration << 5 |
             config.iir_filter << 2 |
             config.spi_enable)
-    
-    
+
+
 class Bmp280:
     
     """_summary_
@@ -28,6 +28,7 @@ class Bmp280:
     ):
         self._i2c_bus = i2c_bus
         self._i2c_address = i2c_device_address
+        self.t_fine = 0
         
         #registers to read from
         self.dig_T1 = int.from_bytes(self._i2c_read_block(0x88, 2), byteorder="little", signed=False)
@@ -93,11 +94,15 @@ class Bmp280:
     
     # Calculate var1
         var1 = (adc_T / 16384.0 - self.dig_T1 / 1024.0) * self.dig_T2
-        
-        # Calculate var2
+
         var2 = (adc_T / 131072.0 - self.dig_T1 / 8192.0) * (adc_T / 131072.0 - self.dig_T1 / 8192.0) * self.dig_T3
-        
-        # Calculate temperature
-        temp = (var1 + var2) / 5120.0
+
+        self.t_fine = (var1 + var2)
+        temp = self.t_fine / 5120.0
         
         return temp
+    
+    def get_temp_for_humidity(self) -> float:
+        self.read_temperature()
+
+        return self.t_fine

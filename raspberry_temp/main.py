@@ -1,5 +1,6 @@
 from smbus2 import SMBus
 from i2c_devices.BMP280_i2c_sensor.bmp280_temperature import Bmp280
+from i2c_devices.BMP280_i2c_sensor.bmp280_humidity import Bmp280_humidity
 from raspi_temperature_driver.averaging_raspi_temperature import average_temp_per_minute
 
 def main():
@@ -13,6 +14,8 @@ def main():
         address
     )
 
+    humidity_sensor = Bmp280_humidity(i2c_bus, address, bmp)
+    
     average_temp_per_minute()
 
 if __name__ == '__main__':
