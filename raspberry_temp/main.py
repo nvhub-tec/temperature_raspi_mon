@@ -7,8 +7,8 @@ def main():
     and humidity, passing in these values
     """
 
-    bus_number = 1               # find_i2c_bus()  #  Find the I2C bus
-    address = 0x76               # find_i2c_address(bus_number)  #  Find the I2C address
+    bus_number = 1               # i2c device bus
+    address = 0x76               # i2c device address
     i2c_bus = SMBus(bus_number)  # open bus
 
     average_temp_per_minute(device_temperature=None, i2c_bus=i2c_bus, address=address)
