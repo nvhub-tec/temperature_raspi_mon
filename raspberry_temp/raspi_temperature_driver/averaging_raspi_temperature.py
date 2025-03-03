@@ -1,12 +1,18 @@
 import time
-from smbus2 import SMBus
 from raspi_temperature_driver.temperature_class import DeviceTemperature
 from i2c_devices.BMP280_i2c_sensor.bmp280_temperature import Bmp280
-from i2c_devices.BMP280_i2c_sensor.get_bus_and_address import find_i2c_bus, find_i2c_address
-from i2c_devices.BMP280_i2c_sensor.bmp280_humidity import Bmp280_humidity
+from i2c_devices.BMP280_i2c_sensor.bmp280_humidity import Bmp280Humidity
 
 
-def average_temp_per_minute(device_temperature: DeviceTemperature = None):
+def average_temp_per_minute(device_temperature:
+    DeviceTemperature = None, i2c_bus=None, address=None):
+    """gets bus, address, creates temperature sensor object,
+    takes input and samples temp/ humidity this many times per minute
+
+    Args:
+        DeviceTemperature retrieves the raspberry pi temp. 
+        device_temperature Defaults to None.
+    """
 
     if device_temperature is None:
         device_temperature = DeviceTemperature()
@@ -16,13 +22,9 @@ def average_temp_per_minute(device_temperature: DeviceTemperature = None):
         print("Invalid input. Please enter a positive integer.")
         return
 
-    bus_number = find_i2c_bus()  # Get I2C bus number
-    address = find_i2c_address(bus_number)  # Get I2C device address
-    i2c_bus = SMBus(bus_number)  # Open I2C bus
-    bmp = Bmp280(i2c_bus, address) # create temperature sensor
-    humidity_sensor = Bmp280_humidity(i2c_bus, address, bmp)
 
-    humidity_sensor = Bmp280_humidity(i2c_bus, address, bmp)
+    bmp = Bmp280(i2c_bus, address) # create temperature sensor
+    humidity_sensor = Bmp280Humidity(i2c_bus, address, bmp) # create humidity sensor
 
     delay = 60 / samplespm
     while True:
@@ -31,9 +33,9 @@ def average_temp_per_minute(device_temperature: DeviceTemperature = None):
         sum_temperature1 = 0
         sum_temperature2 = 0
         sum_humidity3 = 0
-        
+
         for _ in range(samplespm):
-            
+
             sum_temperature1 += bmp.read_temperature()
             sum_temperature2 += device_temperature.read_cpu_temperature()
             sum_humidity3 += humidity_sensor.read_humidity()

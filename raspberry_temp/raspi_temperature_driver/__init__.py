@@ -1,1 +1,0 @@
-from .averaging_raspi_temperature import average_temp_per_minute
