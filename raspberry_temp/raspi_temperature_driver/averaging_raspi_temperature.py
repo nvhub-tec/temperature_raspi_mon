@@ -22,9 +22,8 @@ def average_temp_per_minute(device_temperature:
         print("Invalid input. Please enter a positive integer.")
         return
 
-
-    bmp = Bmp280(i2c_bus, address) # create temperature sensor
-    humidity_sensor = Bmp280Humidity(i2c_bus, address, bmp) # create humidity sensor
+    bmp = Bmp280(i2c_bus, address)  # create temperature sensor
+    humidity_sensor = Bmp280Humidity(i2c_bus, address, bmp)  # create humidity sensor
 
     delay = 60 / samplespm
     while True:
@@ -52,8 +51,6 @@ def average_temp_per_minute(device_temperature:
         print(f"Average Raspberry Pi CPU Temp = {average_temp_raspi:.2f}°C")
         print(f"Average I2C Humidity = {average_humid_i2c:.2f}%RH")
 
-
-        # Adjust the sleep time so that total duration is as close to 60s as possible
-        remaining_time = 60 - elapsed_time
+        remaining_time = 60 - elapsed_time  # total duration is as close to 60s as possible
         if remaining_time > 0:
             time.sleep(remaining_time)
